@@ -1,0 +1,263 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas
+      class="main"
+      id="main"
+      width="1000px"
+      height="500px"
+      style="border: 2px solid black"
+    >
+    </canvas>
+    <p id="coordinates" class="coordinates"></p>
+    <script>
+      var canvas = document.getElementById("main");
+      var ctx = canvas.getContext("2d");
+      var arrayOfCoordinates = [];
+      var centreX = 100;
+      var centreY = 300;
+      var startX = 0;
+      var startY = 0;
+      var endX = 0;
+      var endY = 0;
+      var dx = 2;
+      var dy = 2;
+      var dq = 0;
+
+      function moveBird(e) {
+        //shift the circle to the coordinates on mousemove event...
+        //and also clear the existing circle from canvas
+
+        const bounding = canvas.getBoundingClientRect();
+        const centreX = e.clientX - bounding.left;
+        const centreY = e.clientY - bounding.top;
+
+        ctx.beginPath();
+        ctx.arc(centreX, centreY, 30, 0, Math.PI * 2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function drawAngryBird(e) {
+        ctx.clearRect(0, 0, 1000, 500);
+
+        const bounding = canvas.getBoundingClientRect();
+        const centreX = e.clientX - bounding.left;
+        const centreY = e.clientY - bounding.top;
+
+        ctx.beginPath();
+        ctx.arc(centreX, centreY, 30, 0, Math.PI * 2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "aqua";
+        ctx.fillRect(0, 0, 1000, 400);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "#09B051";
+        ctx.fillRect(0, 400, 1000, 100);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(70, 330, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(10, 390, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(130, 390, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX, centreY, 30, 0, Math.PI * 2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX + 15, centreY - 10, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX - 15, centreY - 10, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(centreX - 15, centreY + 10);
+        ctx.lineTo(centreX, centreY + 25);
+        ctx.lineTo(centreX + 15, centreY + 10);
+        ctx.stroke();
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(centreX - 15, centreY + 10);
+        ctx.lineTo(centreX, centreY - 5);
+        ctx.lineTo(centreX + 15, centreY + 10);
+        ctx.closePath();
+        ctx.fillStyle = "yellow";
+        ctx.stroke();
+        ctx.fill();
+      }
+
+      function initialCanvas() {
+        ctx.beginPath();
+        ctx.fillStyle = "aqua";
+        ctx.fillRect(0, 0, 1000, 400);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "#09B051";
+        ctx.fillRect(0, 400, 1000, 100);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(70, 330, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(10, 390, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.fillStyle = "brown";
+        ctx.fillRect(130, 390, 60, 170);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX, centreY, 30, 0, Math.PI * 2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX + 15, centreY - 10, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(centreX - 15, centreY - 10, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(centreX - 15, centreY + 10);
+        ctx.lineTo(centreX, centreY + 25);
+        ctx.lineTo(centreX + 15, centreY + 10);
+        ctx.stroke();
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(centreX - 15, centreY + 10);
+        ctx.lineTo(centreX, centreY - 5);
+        ctx.lineTo(centreX + 15, centreY + 10);
+        ctx.closePath();
+        ctx.fillStyle = "yellow";
+        ctx.stroke();
+        ctx.fill();
+
+      }
+
+      function calcAngleDegrees(x, y) {
+        return (Math.atan2(y, x) * 180) / Math.PI;
+      }
+
+      document.addEventListener("DOMContentLoaded", initialCanvas);
+
+      function pullString(e) {}
+      /*runs as response to mouse events ,
+         when any area under the angry bird 
+         circle is touched and dragged ( mousedown )
+
+        */
+
+      canvas.addEventListener("mousedown", (evt) => {
+        console.log(evt, "evt mousedown");
+        const bounding = canvas.getBoundingClientRect();
+        const x = evt.clientX - bounding.left;
+        const y = evt.clientY - bounding.top;
+
+        startX = x;
+        startY = y;
+
+        console.log(`${x} , ${y} start coordinates `);
+
+        console.log(
+          calcAngleDegrees(evt.clientX, evt.clientY),
+          " --- angle ---"
+        );
+
+        canvas.addEventListener("mousemove", drawAngryBird);
+        canvas.addEventListener("mouseup", (evt) => {
+          const bounding = canvas.getBoundingClientRect();
+          const x = evt.clientX - bounding.left;
+          const y = evt.clientY - bounding.top;
+
+          endX = x;
+          endY = y;
+
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.stroke();
+
+          console.log("horizontal angle", calcAngleDegrees(endX, endY));
+
+          console.log(`${x} , ${y} end coordinates `);
+          canvas.removeEventListener("mousemove", drawAngryBird);
+        });
+      });
+
+      const findCoordinates = (event) => {
+        console.log("mousemove");
+        var coordinates = document.getElementById("coordinates");
+        const bounding = canvas.getBoundingClientRect();
+        const x = event.clientX - bounding.left;
+        const y = event.clientY - bounding.top;
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(x, y, 1, 1);
+
+        coordinates.innerHTML = `x coordinate - ${x} and y coordinate - ${y}`;
+      };
+
+      //pointer angle has to be checked and allow motion in only that direction]
+      // that is on mousedown event
+
+      /*as the mouse moves the pixels at the coordinates has to be coloured */
+    </script>
+  </body>
+</html>
